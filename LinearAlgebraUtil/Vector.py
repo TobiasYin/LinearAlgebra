@@ -63,3 +63,6 @@ class Vector(object):
 
     def __neg__(self):
         return -1 * self
+
+    def underlying_list(self):
+        return self._values.copy()
