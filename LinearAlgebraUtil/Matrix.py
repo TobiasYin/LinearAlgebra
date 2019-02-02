@@ -94,3 +94,4 @@ class Matrix(object):
         for i in range(n):
             m[i][i] = 1
         return cls(m)
+

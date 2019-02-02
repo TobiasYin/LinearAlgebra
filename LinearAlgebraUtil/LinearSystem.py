@@ -5,11 +5,15 @@ from ._global import is_equal
 
 
 class LinearSystem:
-    def __init__(self, A: Matrix, b: Vector):
+    def __init__(self, A: Matrix, b: Vector or Matrix):
         assert A.row_num() == len(b), "Row numbers of A must equal the length of b"
         self._m = A.row_num()
         self._n = A.col_num()
-        self.Ab = [Vector(A.row_vector(i).underlying_list() + [b[i]]) for i in range(A.row_num())]
+        if isinstance(b, Vector):
+            self.Ab = [Vector(A.row_vector(i).underlying_list() + [b[i]]) for i in range(A.row_num())]
+        if isinstance(b, Matrix):
+            self.Ab = [Vector(A.row_vector(i).underlying_list() + b.row_vector(i).underlying_list()) for i in
+                       range(A.row_num())]
         self.pivots = []
 
     def guass_jordan_elimination(self):
@@ -55,3 +59,13 @@ class LinearSystem:
 
     def fancy_print(self):
         print(self.get_matrix().col_vector(self._n))
+
+
+def inv(A: Matrix):
+    if A.row_num() != A.col_num():
+        return None
+    n = A.row_num()
+    ls = LinearSystem(A, Matrix.identity(n))
+    if not ls.guass_jordan_elimination():
+        return None
+    return Matrix([i.underlying_list()[n:] for i in ls.Ab])
