@@ -50,7 +50,7 @@ class LinearSystem:
     def _max_row(self, i, k, n) -> int:
         m = (self.Ab[i][k], i)
         for j in range(i + 1, n):
-            if self.Ab[j][k] > m[0]:
+            if abs(self.Ab[j][k]) > abs(m[0]):
                 m = (self.Ab[j][k], j)
         return m[1]
 
