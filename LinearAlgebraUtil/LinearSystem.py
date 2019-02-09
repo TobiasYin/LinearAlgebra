@@ -5,10 +5,12 @@ from ._global import is_equal
 
 
 class LinearSystem:
-    def __init__(self, A: Matrix, b: Vector or Matrix):
-        assert A.row_num() == len(b), "Row numbers of A must equal the length of b"
+    def __init__(self, A: Matrix, b: Vector or Matrix or None = None):
+        assert b is None or A.row_num() == len(b), "Row numbers of A must equal the length of b"
         self._m = A.row_num()
         self._n = A.col_num()
+        if b is None:
+            self.Ab = [A.row_vector(i) for i in range(A.row_num())]
         if isinstance(b, Vector):
             self.Ab = [Vector(A.row_vector(i).underlying_list() + [b[i]]) for i in range(A.row_num())]
         if isinstance(b, Matrix):
@@ -69,3 +71,10 @@ def inv(A: Matrix):
     if not ls.guass_jordan_elimination():
         return None
     return Matrix([i.underlying_list()[n:] for i in ls.Ab])
+
+
+def rank(A: Matrix):
+    ls = LinearSystem(A)
+    ls.guass_jordan_elimination()
+    zero = Vector.zero(A.col_num())
+    return sum([i != zero for i in ls.Ab])

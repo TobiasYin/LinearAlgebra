@@ -64,5 +64,14 @@ class Vector(object):
     def __neg__(self):
         return -1 * self
 
+    def __eq__(self, other):
+        other_list = other.underlying_list
+        if len(other_list) != len(self._values):
+            return False
+        return all([i == j for i, j in zip(other_list, self._values)])
+
+    def __neq__(self, other):
+        return not (self == other)
+
     def underlying_list(self):
         return self._values.copy()
