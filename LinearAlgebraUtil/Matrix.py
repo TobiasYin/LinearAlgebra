@@ -5,11 +5,14 @@ class Matrix(object):
     def __init__(self, list2d: list):
         length = len(list2d[0])
         for i in list2d:
-            assert type(i) == list
+            assert type(i) == list or isinstance(i, Vector)
             assert len(i) == length
             for j in i:
                 assert type(j) == int or type(j) == float
-        self._values = [row[:] for row in list2d]
+            if isinstance(list2d[0], list):
+                self._values = [row[:] for row in list2d]
+            elif isinstance(list2d[0], Vector):
+                self._values = [row.underlying_list() for row in list2d]
 
     def size(self):
         s, z = self.shape()
@@ -94,4 +97,3 @@ class Matrix(object):
         for i in range(n):
             m[i][i] = 1
         return cls(m)
-

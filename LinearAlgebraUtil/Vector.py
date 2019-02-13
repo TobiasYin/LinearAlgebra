@@ -65,7 +65,7 @@ class Vector(object):
         return -1 * self
 
     def __eq__(self, other):
-        other_list = other.underlying_list
+        other_list = other.underlying_list()
         if len(other_list) != len(self._values):
             return False
         return all([i == j for i, j in zip(other_list, self._values)])

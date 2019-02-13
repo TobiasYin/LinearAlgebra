@@ -1,5 +1,8 @@
 from LinearAlgebraUtil.Matrix import Matrix
 from LinearAlgebraUtil.Vector import Vector
+from LinearAlgebraUtil.GramSchmidtProcess import gram_schmidt_process
+from LinearAlgebraUtil.GramSchmidtProcess import qr
+from LinearAlgebraUtil.LinearSystem import inv
 
 m = Matrix([[1, 2], [3, 4]])
 print(m)
@@ -25,3 +28,11 @@ P = Matrix([[0, 4, 5], [0, 0, 3]])
 print(T * P)
 print(m1.T())
 print(Matrix.identity(3))
+
+A = [Vector([1, 2]), Vector([3, 4])]
+print(gram_schmidt_process(A))
+q, r = qr(Matrix(A))
+i = inv(Matrix(A))
+print(q)
+print(i)
+print(q*r)
